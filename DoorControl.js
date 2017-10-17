@@ -18,16 +18,16 @@ var soundClose : GameObject;
 var degConstant = 270; //degree angle constant to adjust the relative positon of the door
 var halfWidth : float = 0.433; //actual width of the door
 
-/*Calculate the Real-time hinge position of each door*/
+/*Computing the Real-time hinge position (axis) of each door*/
 private function hinge () {
-	var degreeAngle : float = transform.eulerAngles.y-degConstant; //Real-time door angle to the center
+	var degreeAngle : float = transform.eulerAngles.y - degConstant; //Real-time door angle to the center
 	var radianAngle : float = degreeAngle * Mathf.Deg2Rad;
 	var c : float = halfWidth; //the half size of the door's width 
-	var zMove :float = Mathf.Cos(radianAngle)*c; // the z offset
-	var xMove : float = -(Mathf.Sin(radianAngle)*c); // the x offset
+	var zMove :float = Mathf.Cos(radianAngle) * c; // the z offset
+	var xMove : float = -(Mathf.Sin(radianAngle) * c); // the x offset
 	var hingePosition : Vector3 = transform.position; // the default center of the door
 	
-    hingePosition.z = doorCenter.z - zMove;
+    	hingePosition.z = doorCenter.z - zMove;
 	hingePosition.x = doorCenter.x + xMove;
 	
 	return hingePosition;
