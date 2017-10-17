@@ -1,3 +1,12 @@
+//Author： Jiangtian Wang
+/* 
+这是一段游戏脚本中控制门的开关的代码，选择展示这段代码是因为它有两个优点： 普适性和可再利用。体现了良好的工程思维。
+模型师提供的门的模型中，中心点在门的正中，但是门开关时，旋转所依据的轴并不是正中心的点，而是两旁的其中一条边（也就是日常生活中的荷叶hinge），所以需要修改模型的中心点来实现门的开关。
+但是这样做需要修改每个门模型的参数，工作量较大。
+这段代码中用简单的数学方法计算实时的荷叶位置，减少了模型师的工作量，并且通用于项目中所有门的开关，即插即用，维护起来也很方便，在将来的项目中也可以再重复使用。
+
+又： 主要逻辑在hinge和Update函数中，Check函数中是一些细节逻辑判断，可以忽略。
+*/
 #pragma strict
 
 public var firstTime : boolean = true;
@@ -11,13 +20,12 @@ var halfWidth : float = 0.433; //actual width of the door
 
 /*Calculate the Real-time hinge position of each door*/
 private function hinge () {
-	var doorCenter : Vector3 = transform.position ;
 	var degreeAngle : float = transform.eulerAngles.y-degConstant; //Real-time door angle to the center
 	var radianAngle : float = degreeAngle * Mathf.Deg2Rad;
 	var c : float = halfWidth; //the half size of the door's width 
 	var zMove :float = Mathf.Cos(radianAngle)*c; // the z offset
 	var xMove : float = -(Mathf.Sin(radianAngle)*c); // the x offset
-	var hingePosition : Vector3 = doorCenter; // the default center of the door
+	var hingePosition : Vector3 = transform.position; // the default center of the door
 	
     hingePosition.z = doorCenter.z - zMove;
 	hingePosition.x = doorCenter.x + xMove;
